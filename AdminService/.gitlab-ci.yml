@@ -1,0 +1,27 @@
+stages:
+  - build
+  - test
+
+build_job:
+  only:
+    - develop
+  stage: build
+  before_script:
+    - echo "Run gitlab cli...."
+  tags:
+    - build
+  variables:
+    arg1: ./auth
+    arg2: ./database.py
+    arg3: ./config.py
+    arg4: ./main.py
+  script:
+    - python3 -m black $arg1 $arg2 $arg3 $arg4 --check
+    - python3 -m isort $arg1 $arg2 $arg3 $arg4 --check
+
+test_job:
+  only:
+    - develop
+  stage: test
+  script:
+    - echo "This is test stage"
